@@ -1,0 +1,515 @@
+Exceptin Handling
+-----------------
+
+Exception
+---------
+An Exception is an abnormal condition that terminates the normal program flow(execution).
+
+An exception signifies an illegal, invalid or unexpected situations like
+-Dereference of a null pointer.
+-Out-of-bounds array access.
+-Divide by zero.
+-Attempt to open a non-existent file for reading.
+-Bad cast (e.g., casting an Object that is actually a Boolean to Integer).
+-Due to failure in network connection.
+-The class file you want to load may be missing or it is in the wrong format.
+-Call to Stack's "pop" method for an empty stack.
+-Call to List's nextElement method when hasMoreElements is false.
+
+If these conditions are not prevented or handled, the program execution will be terminated abnormally
+
+Example:
+class Demo
+{
+	public static void main(String[] args)
+	{
+		int a=10,b=0,c;
+		c = a/b;
+		System.out.println("Quotient = " + c);
+
+		System.out.println("Welcome to Java");
+	}
+}
+
+In the above program we are dividing the numerator by zero. As we cannot divide by zero, So the program terminates abnormally by displaying an error, with out executing the remaining statements.
+
+To handle the Run-Time Exceptions java is provides with
+-------------------------------------------------------
+1. try
+2. catch
+3. finally
+
+Exception Hierarchy
+-------------------
+Image
+					+--------+
+                    | Object |
+                    +--------+
+				        |
+				        |
+                   +-----------+
+				   | Throwable |
+                   +-----------+
+                    /         \
+				   /           \
+          +-------+          +-----------+
+          | Error |          | Exception |
+          +-------+          +-----------+
+		   /  |  \				/ |		\
+         \________/			\______/     \
+										+------------------+
+								checked | RuntimeException |
+										+------------------+
+										  /    |    |     \
+										 \_________________/
+						   
+											 unchecked
+
+syntax of try-catch statements
+------------------------------
+try
+{
+	[Code that may throw an exception]
+}
+catch(ExceptionType-1 Argument)
+{
+	[Code that is executed when an exception type - 1 is thrown]
+}
+catch(ExceptionType-2 Argument)
+{
+	[Code that is executed when an exception type - 2 is thrown]
+}
+.
+.
+.
+catch(ExceptionType-n Argument)
+{
+	[Code that is executed when an exception type - n is thrown]
+}
+finally
+{
+	[Code that runs regardless of weather an exception was thrown]
+}
+
+
+
+
+An exception is an object of the super class Throwable.
+Throwable is a super class for all types of exception.
+
+
+Demonstration on Exception
+--------------------------
+import java.util.Scanner;
+class Demo1
+{
+	public static void main(String[] args)
+	{
+		Scanner s = new Scanner(System.in);
+		int a,b,c;
+
+		System.out.print("Enter a value for a : ");
+		a = s.nextInt();
+		System.out.print("Enter a value for b : ");
+		b = s.nextInt();
+
+		try
+		{
+			c = a/b;
+			System.out.println("Result = " + c);
+		}
+		catch(ArithmeticException e)
+		{
+			System.out.println("Hello User You Have and Error : " + e);
+		}
+		System.out.println("Welcome to Java");	
+	}
+}
+
+In the above program if you are dividing by zero, their will not be any abnormal termination. Here in the try block if any run-time execption is generated, that will be throw(sent) to the catch block, catch block handles the the run-time exceptions and provide a space to write the appropriate buisness logic.
+
+Java - Built-in Exceptions
+--------------------------
+Exception						Description
+---------						-----------
+ArithmeticException				Arithmetic error, such as divide-by-zero.
+ArrayIndexOutOfBoundsException	Array index is out-of-bounds.
+ArrayStoreException				Assignment to an array element of an incompatible type.
+ClassCastException				Invalid cast.
+IllegalArgumentException		Illegal argument used to invoke a method.
+IndexOutOfBoundsException		Some type of index is out-of-bounds.
+NegativeArraySizeException		Array created with a negative size.
+NullPointerException			Invalid use of a null reference.
+NumberFormatException			Invalid conversion of a string to a numeric format.
+StringIndexOutOfBounds			Attempt to index outside the bounds of a string.
+
+
+Try with more than one catch blocks
+-----------------------------------
+
+import java.util.*;
+class Demo2
+{
+	public static void main(String[] args)
+	{
+		Scanner s = new Scanner(System.in);
+		int a,b,c,i;
+		int x[] = new int[5];
+
+		System.out.print("Enter a value for a : ");
+		a = s.nextInt();
+		System.out.print("Enter a value for b : ");
+		b = s.nextInt();
+
+		try
+		{
+			c = a/b;
+			System.out.println("Result = " + c);
+
+			System.out.println("\nEnter array values");
+			for(int j=0; j<x.length; j++)
+			{
+				System.out.print("Enter a value for x[" + j + "] : ");
+				x[j] = s.nextInt();
+			}
+
+
+			System.out.println("\nEnter index number to display array value : ");
+			i = s.nextInt();
+			System.out.println("Array value x[" + i + "] = " + x[i]);
+		}
+		catch(ArithmeticException e)
+		{
+			System.out.println("Arithmetic Exception Occured...");
+			System.out.println("Hello User You Have and Error : " + e);
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			System.out.println("ArrayIndexOutOfBoundsException Occured...");
+			System.out.println("Hello User You Have and Error : " + e);
+		}
+		catch(InputMismatchException e)
+		{
+			System.out.println("Input array value is not in a correct format");
+			System.out.println("Hello User You Have and Error : " + e);
+		}
+
+		/*
+		or 
+		
+		instead of all the above catch block you can use one single 
+		catch block as specified below
+
+		catch(Exception e)
+		{
+			System.out.println("Hello User You Have and Error : " + e);
+		}		
+		*/
+
+
+		System.out.println("Welcome to Java");	
+	}
+}
+
+
+import java.util.*;
+class Demo3 
+{
+	public void Hello()
+	{
+		System.out.println("Welcome to Hello() Method...");
+	}
+	public static void main(String[] args) 
+	{
+		Demo3 obj = new Demo3();
+		obj.Hello();
+
+		try
+		{
+			obj = null;
+			obj.Hello();
+		}
+		catch (NullPointerException ex)
+		{
+			System.out.println("NullPointerException Occured : " + ex);
+		}		
+	}
+}
+
+
+
+import java.util.*;
+class Demo4
+{	
+	public static void main(String[] args) 
+	{
+		int a;
+		Scanner s = new Scanner(System.in);
+		System.out.println("Enter a Number : ");
+
+		try
+		{
+			a = s.nextInt();
+			System.out.println("a = " + a);			
+		}
+		catch(InputMismatchException ex)
+		{
+			System.out.println("Hello user you have an error : " + ex);
+		}
+	}
+}
+
+Finally
+-------
+Suppose if you want to execute a peice of code even your application is raising an exception or not, that peice of code can be placed in the finally block. finally block guarantees the execution for its statements whether exception is raised or not.
+
+import java.util.*;
+class Demo5 
+{
+	public static void main(String[] args) 
+	{
+		int a,b,c;
+		Scanner s = new Scanner(System.in);
+
+		System.out.print("Enter a value : ");
+		a = s.nextInt();
+		System.out.print("Enter b value : ");
+		b = s.nextInt();
+
+		try
+		{			
+			if(b==0)
+			{
+				return;
+			}
+			else
+			{
+				c = a/b;
+				System.out.println("c = " + c);		
+			}			
+		}
+		catch(ArithmeticException e)
+		{
+			System.out.println("\nArithmeticException Occured \n" + e);
+		}
+
+		finally
+		{
+			System.out.println("\nFinally Block Executed...");
+		}
+
+		System.out.println("This Statement is from Main Block...\n");
+	}
+}
+
+
+
+Using throws keyword
+--------------------
+Some times the author/programmer of a method wants to warn others against the possible errors/exceptions that may occur if they use his method. In this case the programmer can use the "throws" keyword for throwing the exceptions.
+
+import java.util.*;
+class MyClass
+{
+	public void ArithDemo(int x, int y) throws ArithmeticException
+	{
+		System.out.println("Sum of " + x + " and " + y + " is " + (x+y));
+		System.out.println("Sub of " + x + " and " + y + " is " + (x-y));
+		System.out.println("Mul of " + x + " and " + y + " is " + (x*y));
+		System.out.println("Quo of " + x + " and " + y + " is " + (x/y));
+		System.out.println("Rem of " + x + " and " + y + " is " + (x%y));
+		System.out.println();
+	}
+}
+
+class Demo6 
+{
+	public static void main(String[] args) 
+	{
+		MyClass ad = new MyClass();
+		Scanner s = new Scanner(System.in);
+
+		System.out.print("Enter Number 1 : ");
+		int a = s.nextInt();
+		System.out.print("Enter Number 2 : ");
+		int b = s.nextInt();
+		System.out.println();
+
+		try
+		{
+			ad.ArithDemo(a,b);
+		}
+		catch(ArithmeticException ex)
+		{
+			System.out.println(ex);
+			System.out.println("Cannto Divide By Zero \n");
+		}
+		System.out.println("Thank You for Using MyClass...");
+	}
+}
+
+
+
+User Defined Exceptions
+-----------------------
+If the predefined exceptions are not satisfied by you, you can develop your own exception.
+User defined exceptions are giving the flexibility to develop your own exceptions as per your requirement.
+
+
+import java.util.*;
+
+class NoMoneyException extends Exception
+{
+	public NoMoneyException(String msg)
+	{
+		super(msg);
+	}
+}
+
+class Demo7
+{
+	public static void main(String[] args) 
+	{
+		int bal = 500,withdraw;		
+		Scanner s = new Scanner(System.in);
+
+		System.out.print("Enter Amount to be withdraw : ");
+		withdraw = s.nextInt();
+
+		try
+		{
+			if(withdraw>bal)
+			{
+				throw new NoMoneyException("Sorry, You donot have Enough Balance...");
+			}
+			else
+			{
+				System.out.println("\nAmount WithDraw Completed..");
+				System.out.println("Your New Balnace is : " + (bal-withdraw) + "\n");
+			}
+		}
+		catch(NoMoneyException e)
+		{
+			System.out.println("\nError Occured : " + e + "\n");
+		}		
+	}
+}
+
+
+
+import java.util.*;
+class ErrorInAgeException extends Exception
+{
+	public ErrorInAgeException(String s)
+	{
+		super(s);
+	}
+}
+
+class Demo8
+{
+	public static void main(String[] args) 
+	{
+		Scanner s = new Scanner(System.in);
+		int age;
+
+		System.out.print("Enter Your Age : ");
+		age = s.nextInt();
+
+		try
+		{
+			if(age<1)
+			{
+				throw new ErrorInAgeException("Age Cannot be Lessthan 1");
+			}
+			else
+			{
+				System.out.println("\nYour age is : " + age + "\n");
+			}
+		}
+		catch(ErrorInAgeException e)
+		{
+			System.out.println("\nErro in Age : " + e + "\n");
+		}
+	}
+}
+
+
+Demonstration on throw and throws
+---------------------------------
+import java.util.*;
+class Demo9
+{
+	public void ArithDemo(int x, int y) throws ArithmeticException
+	{	
+		if(y!=0)
+		{
+			System.out.println("Sum = " + (x+y));
+			System.out.println("Sub = " + (x-y));
+			System.out.println("Mul = " + (x*y));
+			System.out.println("Quo = " + (x/y));
+			System.out.println("Rem = " + (x%y));
+			System.out.println();
+		}
+		else
+		{
+			throw new ArithmeticException("Cannot Divide By Zero...");
+		}
+	}
+	public static void main(String[] args)
+	{
+		Scanner s = new Scanner(System.in);
+		Demo6 obj = new Demo6();
+
+		System.out.print("Enter a value : ");
+		int a = s.nextInt();
+		System.out.print("Enter b value : ");
+		int b = s.nextInt();
+		System.out.println();
+
+		try
+		{
+			obj.ArithDemo(a,b);
+		}
+		catch(ArithmeticException e)
+		{
+			System.out.println("\nArithmeticException Occured \n" + e + "\n");
+		}
+	}
+}
+
+
+import java.util.*;
+class Demo10
+{
+	public static String Capitalize(String s) throws NullPointerException
+	{
+		if(s==null)
+		{
+			throw new NullPointerException("You have passed a Null Argument");
+		}
+		else
+		{
+			Character firstchar = s.charAt(0);
+			String RestCharacters = s.substring(1);
+
+			return firstchar.toString().toUpperCase() + "" + RestCharacters;
+		}
+	}
+
+	public static void main(String[] args) 
+	{
+		String input = null;
+
+		try
+		{
+			String str = Capitalize(input);
+			System.out.println("str = " + str);
+		}
+		catch(NullPointerException ex)
+		{
+			System.out.println("Error : " + ex);
+		}
+	}
+}
+

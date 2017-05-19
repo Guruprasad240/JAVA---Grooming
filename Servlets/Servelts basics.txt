@@ -1,0 +1,319 @@
+Servlet :
+---------
+It is a server side technology designed on the basis of java technology.
+
+Common steps to design web application :
+----------------------------------------
+1.prepare web application directory structure at server machine.
+2.prepare deployment descriptor(web.xml)
+3.prepare all web resources like servlets,html.
+4.start the server(d:\tomcat7.0\bin\tomcat7.exe)
+5.access web application from client browser.
+
+As part of web applications, there are 3 ways to design servlets.
+1.Implementing Servlet interface
+
+2.Extending GenericServlet abstract class
+
+3.Extending HttpServlet class
+
+1.Implementing servlet interface :
+----------------------------------
+Servlet interface consists of 5 methods as:
+1.public void init(ServletConfig config) throws ServletException
+2.public void service(ServletRequest req, ServletResponse res)throws 	ServletException,IOException
+3.public ServletConfig getServletConfig()
+4.public String getServletInfo()
+5.public void destroy()
+
+1.Where init() can be used to perform servlet initialization, for which container has to prepare ServletConfig object.
+
+ServletConfig: Object used to provide all configuration details of a particular servlet.
+
+2.Where service() is like a main() in our java application, used to provide application logic at Servlet.
+
+3.Where getServletConfig() used to get the reference of ServletConfig object.
+
+4.Where getServletInfo() can be used to get generalized description of servlet.
+
+5.Destroy() used for deinstantiation.
+
+6.Where setContentType() used to specify type of response(html)which we are going  to generate from present servlet .
+
+7.Where getWriter() used to get reference of PrintWriter object, in order to carry the response.
+
+----------------------------------------------------------------
+
+1. Implementing servlet interface :
+-----------------------------------
+In this approach , we will define an user defined class as an implementation class to Servlet interface.
+
+syn: 
+public class  classname implements Servlet
+{ .. } 
+
+Ex1: firstservletapp\first ?
+
+Load Tomcat server - D:\Tomcat 7.0
+
+1.create  web application directory structure in above folder:
+D:\Tomcat 7.0\webapps\firstservletapp
+
+2.create servlet file:
+D:\Tomcat 7.0\webapps\firstservletapp\WEB-INF\classes\MyServlet.java
+
+3.compile above file to generate class file:
+D:\Tomcat 7.0\webapps\firstservletapp\WEB-INF\classes>
+javac MyServlet.java
+
+4.create web.xml file:
+D:\Tomcat 7.0\webapps\firstservletapp\WEB-INF\web.xml
+
+5.start tomcat server:
+D:\Tomcat 7.0\bin\Tomcat7.exe
+
+6.Provide request to created servlet in web browser:
+open google chrome: 
+provide url as -
+http://localhost:8888 (opens tomcat)
+click on Manager App button
+username-admin
+password-
+click on /firstservletapp
+provide url as :
+http://localhost:1010/firstservletapp/first
+
+==============================================================
+
+Drawback of first Approach:
+---------------------------
+For each and every user defined servlet class, we must provide implementation for all methods.
+To overcome above prbolem , we can use Generic Servlet.
+
+2.Extending Generic Servlet:
+----------------------------
+In this approach , we will take an user defined class, which must be extending from Generic Servlet abstract class.
+
+syn:
+public class classname extends GenericServlet
+{..}
+
+Here , we provide implementation only for Service().
+
+Ex2: genericservlet\generic ?
+
+==============================================================
+
+3.Extending HttpServlet :
+-------------------------
+
+With this approach to design servlets, we have to take an user defined class as a subclass to HttpServlet abstract class.
+
+syn:
+public class classname extends HttpServlet
+{..}
+
+GenericServlet is protocol independent ,
+where HttpServlet is http protocol dependent.
+
+GenericServlet is not compatable with protocol, but HttpServlet is very good compatable with http protocol.
+
+Instead of Service() , use doGet().
+
+Ex3: httpservlet\http
+
+==============================================================
+
+ServletConfig:
+--------------
+If we want to provide initialization parameters in ServletConfig objects, first we have to declare them in web.xml
+
+getInitParameter(String name) - values
+getInitParameterNames() - names
+
+Ex4: configapp\config
+
+==============================================================
+
+ServletContext:
+---------------
+
+ServletConfig is an object which will manage  all the configuration  details of a  particular servlet like logicalname, initialization parameters and the reference of ServletContext object.
+
+ServletContext is an object , which will manage all the context details of a particular web application like web-application logicname ,context parameters ,..
+
+ServletConfig object will provide complete view of particular servlet.
+
+ServletContext object will provide complete view of particular web application.
+
+Note: without using web.xml , we store context parameter in context object directly using setAttribute()
+
+Ex5: contextapp/context  
+
+=========================================================================
+
+User Interface Layer :
+----------------------
+If we want to design any enterprise application, we have to provide 
+3 Layers:
+1.User Interface Layer
+2.Business Processing Layer
+3.Data Storage and Accessing layer
+
+1.User Interface Layer :
+------------------------
+1.It improves look and feel for enterprise application.
+2.To provide client-side data validations with javascript functions.
+3.To accept user-details in order to execute server side application.
+4.To specify different types of requests at client browser like head, get,post,..
+5.To prepare user interface layer,we will use a seperate logic called as Presentation logic using html.
+
+2.Business Processing Layer:
+----------------------------
+1.It is used to implement and execute all business rules and regulations.
+2.To prepare business processing layer in enterprise application , we will use a seperate logic called as business logic using servlets.
+
+3.Data Storage & Access Layer:
+------------------------------
+1.It pickup data from business processing layer and to manage the data with d/b permanently.
+2.We use persistance logic.
+3.Technologies like jdbc.
+note: use html filename in url.
+
+In web applications , there are 2 ways to prepare forms:
+1.Static form generation.
+2.Dynamic form generation.
+
+--------------------------------------------------------------
+
+1.Static form generation:
+-------------------------
+We cannot do any modifications. 
+eg: login page
+
+Ex6: staticformapp / registrationform.html from url 
+Note: no null values in the form(fill all options).
+
+==============================================================
+
+2.Dynamic form generation:
+--------------------------
+It will allow modifications .
+eg: success page, failure page,..(based on login details)
+
+Ex7: loginapp - no need url as we used welcome file.
+
+==============================================================
+
+b.Web-Component Communication :
+------------------------------------------
+1.The process of providing the communication between 2 server side components is called as web-component communication.
+
+2.In case of web component communication , we are able to provide communication between servlet-servlet, servlet-html.
+
+3.To achieve web component communication in web application,
+we have to use 2 mechanisms:
+i.Include mechanism
+ii.Forward mechanism
+
+4.In web application, to achieve both Include and Forward machanism we should require ReqestDispatcher object implicitly.
+So that, include and forward mechanisms, are also called as 
+RequestDispatching mechanisms.
+
+5.To perform  web component communication , we have to use 2 steps:
+1.Get RequestDispatcher object 
+2.access either include(-,-) or forward(-,-) methods.
+------------------------------------------------------------
+
+Step1. RequestDispatcher object :
+---------------------------------
+1.This object will provide very good environment either  to include target resource response into present resource response or to forward request to target resource .
+
+2.To represent RequestDispatcher object, we use Interface 
+javax.servlet.RequestDispatcher
+
+3.ServletContext - getRequestDispatcher(-,-)
+   ServletRequest - getRequestDispatcher(-,-)
+
+step2:
+1.public void include(-,-)
+2.public void forward(-,-)
+
+
+Ex10: includeapp1\home
+
+===============================================================
+
+
+
+
+Session Tracking Mechanism:
+---------------------------
+As part of web application development, as per the application
+requirement the online shopping , e-business , e-banking , it is essential to manage previous request data at the time of processing later request.
+
+Session: It is a time duration , it will start from the 
+-------- starting point of  client conversion with server and it will be terminated at the ending point of the client conversion with the server.
+
+Session State:
+--------------
+1.It is  a data which we transferred through multiple no. of request from particular client to server during a particular session.
+
+2.In general , in web application , for each and every user , server will prepare a seperate session at server. To keep track of sessions ,we require some explicit mechanisms at server side called as session tracking mechanism.
+
+3.There are 2 types of session tracking mechanisms(STM):
+1.HttpSession STM
+2.Cookies STM
+
+--------------------------------------------------------------
+
+1.HttpSession STM:
+------------------
+1.Incase, of Httpsession STM, we will prepare  a seperate
+HttpSession object for each and  every user.
+
+2.In the above context, we will store every request data from a particular user in respective HttpSession object at server side.
+
+3.With the above convention , it is possible to get previous request data of a particular user , at the time of processing later request from respective HttpSession object. 
+
+4.To prepare HttpSession object in web application, we have to use 2 methods:
+
+1.getSession(): If HttpSession object existing , uses, --------------- otherwise creates.
+2.getSession(false): If HttpSession object existing , uses , -------------------- otherwise returns false.
+
+In case of HttpSession STM, when we create HttpSession object 
+by using getSession(), then container will create an unique identification called as SessionId.
+
+
+Ex11: HttpSessionApp
+
+===============================================================
+
+
+Drawbacks:
+----------
+1.In case of Http Session STM, for each and every user, a seperate HttpSession object will be created, where the entire client conversation will be stored in the form of HttpSession object only at server side.
+
+2.In this context , if we increase no. of clients , then no. of HttpSession objects will be created at server side. This approach will increase burden to the server machine. 
+As a result , performance of application will be reduced.
+
+3.In case of HttpSession STM, when we create Httpsession object, automatically SessionId cookie will be created.
+It will be transferred between client and server along with 
+request and response.
+
+4.In this case , if any client browser disable the cookies , then it is difficult for the container to identify the user respective HttpSession object at server.
+
+--------------------------------------------------------------
+
+2.Cookies STM:
+--------------
+1.In case of cookies STM, at server side , we will prepare a seperate cookie for each and every  request parameter and we will add that cookie to response object explicitly.
+
+2.When container dispatch response to the client , automatically the generated cookies will be transferred to client and they will be stored at client machine permanently.
+
+3.In the above context , when we prepare cookies explicitly , then only we have to add cookies  to the response object explicitly.
+In all the remaining cases, the available cookies from request object , will be added to response object automatically.
+
+Ex12: cookiesapp
+
+===============================================================
